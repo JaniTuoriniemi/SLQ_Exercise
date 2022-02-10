@@ -5,7 +5,6 @@ create table Spelare
 (PrsnNr char(11),
 Namn varchar(255),
 Ålder Int,
-Tävling varchar(255),
 Nr varchar(255),
 initialer varchar(255),
 primary key(PrsnNr))engine InnoDB;
@@ -15,8 +14,7 @@ create table Jacka
  initialer varchar(255),
 Storlek varchar(255),
 Material varchar(255),
-primary key(initialer),
-
+primary key(initialer, PrsnNr),
 Foreign key (PrsnNr) REFERENCES Spelare (PrsnNr))engine InnoDB;
 
 create table Konstruktion
@@ -29,7 +27,7 @@ create table Klubba
 SerieNr varchar(255),
 Material varchar(255),
 Nr varchar(255),
-primary key(Nr),
+primary key(PrsnNr,Nr),
 Foreign key (PrsnNr) REFERENCES Spelare (PrsnNr),
 Foreign key (SerieNr) REFERENCES Konstruktion (SerieNr)
 )engine InnoDB;
@@ -38,7 +36,6 @@ create table Tävling
 ( PrsnNr char(11),
 Datum Date,
 Tävlingsnamn varchar(255),
-Foreign key (PrsnNr) REFERENCES Spelare (PrsnNr),
 primary key(Tävlingsnamn))engine InnoDB;
 
 create table Regn
@@ -52,7 +49,7 @@ Tävlingsnamn varchar(255),
 Foreign key (Tävlingsnamn) REFERENCES Tävling (Tävlingsnamn),
 Foreign key (PrsnNr) REFERENCES Spelare (PrsnNr),
 Id int,
-primary key(Id))engine InnoDB;
+primary key(Tävlingsnamn, PrsnNr))engine InnoDB;
 
 create table Har
 (Typ varchar(255),
@@ -60,10 +57,10 @@ Tävlingsnamn varchar(255),
 Foreign key (Tävlingsnamn) REFERENCES Tävling (Tävlingsnamn),
 Foreign key (Typ) REFERENCES Regn (Typ),
 Tidpunkt  Time,
-primary key(Tidpunkt))engine InnoDB;
+primary key(Typ, Tävlingsnamn))engine InnoDB;
 
-INSERT INTO Spelare (Namn, PrsnNr, Ålder, Tävling, initialer)
-VALUES ('Johan Andersson', '970125-1234', '25', 'Big Golf Cup Skövde', ('GT''FT') );
+INSERT INTO Spelare (Namn, PrsnNr, Ålder, initialer)
+VALUES ('Johan Andersson', '970125-1234', '25', ('GT''FT') );
 
 INSERT INTO Jacka( Material,initialer,PrsnNr) 
 VALUES ('Gore Tex','GT','970125-1234');
@@ -71,11 +68,11 @@ VALUES ('Gore Tex','GT','970125-1234');
 INSERT INTO Jacka( Material,initialer,PrsnNr) 
 VALUES ('Fleece','FL','970125-1234');
 
-INSERT INTO Spelare (Namn, PrsnNr, Ålder, Tävling, Nr)
-VALUES ('Niclas Jansson', '900101-4321', '32', 'Big Golf Cup Skövde', '1');
+INSERT INTO Spelare (Namn, PrsnNr, Ålder, Nr)
+VALUES ('Niclas Jansson', '900101-4321', '32',  '1');
 
-INSERT INTO Spelare (Namn, PrsnNr, Ålder, Tävling, Nr)
-VALUES ('Annika Persson', '200102-1423', '22', 'Big Golf Cup Skövde', '2');
+INSERT INTO Spelare (Namn, PrsnNr, Ålder,  Nr)
+VALUES ('Annika Persson', '200102-1423', '22',  '2');
 
 INSERT INTO Konstruktion (Hårdhet, SerieNr)
 VALUES ('10','1');  
